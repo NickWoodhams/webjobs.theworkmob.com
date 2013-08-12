@@ -7,7 +7,7 @@ from modules.forms import *
 
 
 app = Flask(__name__)
-app.debug = True
+app.debug = False
 app.config['SECRET_KEY'] = 'yolomcswaggerton'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://webjobs:dezijohnson@localhost/webjobs'
 app.config['SENTRY_DSN'] = 'http://aa64c0f6453848d5a5fdb756aa539cac:28846e2afb004b0883093beb4df11033@sentry.nwdesign.us/8'
