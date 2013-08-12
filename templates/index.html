@@ -1,11 +1,28 @@
 {% extends 'layout.html' %}
+
+
 {% block body %}
 <div class="page-header">
-  <h1>Sticky footer with fixed navbar</h1>
+  <h1>Search Web Jobs</h1>
 </div>
-<p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p>
-<p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+<p class="lead">Web Jobs are scraped daily from all Craigslist cities.</p>
+{{ form_fields(form, class="", button_title="Search", button_class="btn-primary") }}
+{% if posts %}
+	<h3 class="num-results">{{ posts|length }} results</h3>
+{% endif %}
+<div class="row posts">
+
+	<div class="col-lg-6">
+	{#show the post results below #}
+	{%- for post in posts -%}
+		<div class="post">
+			<a href="{{ post.url }}">{{ post.title }}</a>
+		</div>
+	{% endfor %}
+	</div>
+</div>
 {% endblock body %}
+
 
 {% block javascript %}
 <script>

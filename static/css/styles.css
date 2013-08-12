@@ -4343,3 +4343,14 @@ body {
 code {
   font-size: 80%;
 }
+input[type="text"] {
+  width: 50%;
+  padding: 5px;
+  display: block;
+}
+.num-results {
+  padding-top: 20px;
+}
+.posts {
+  margin-bottom: 20px;
+}

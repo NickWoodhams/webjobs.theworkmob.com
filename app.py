@@ -21,8 +21,35 @@ def shutdown_session(exception=None):
 
 @app.route('/', methods=['GET'])
 def index():
-    form = searchForm()
-    return render_template('index.html')
+    form = searchForm(csrf_enabled=False)
+    form.search.data = request.args.get('search')
+    form.excluded.data = request.args.get('excluded')
+    form.include_body.data = request.args.get('include_body')
+    posts = []
+
+    if request.method == "GET" and form.search.data and form.validate:
+        search = form.search.data
+        excluded_terms = [' & !' + term for term in form.excluded.data.split()][::-1]
+        exclusions = "".join(excluded_terms)
+
+        if form.include_body.data:
+            column_name = 'body_tsv'
+        else:
+            column_name = 'title_tsv'
+
+        conn = engine.connect()
+        query = """
+            SELECT post_id FROM post WHERE %s @@ to_tsquery('''%s''%s');
+        """ % (column_name, search, exclusions)
+
+        result = conn.execute(query)
+
+        for post in result.fetchall():
+            post_id = post[0]
+            post = Post.query.filter_by(post_id=post_id).first()
+            posts.append(post)
+
+    return render_template('index.html', form=form, posts=posts)
 
 
 if __name__ == '__main__':

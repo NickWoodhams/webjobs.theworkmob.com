@@ -1,3 +1,5 @@
+import sys
+sys.path.append('/Users/admin/Sites/webjobs/')
 from modules.database import *
 
 with open('craigs_city_list.txt') as f:

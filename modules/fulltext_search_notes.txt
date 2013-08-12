@@ -1,0 +1,15 @@
+postgres commands
+
+ALTER TABLE post ADD COLUMN title_tsv TSVECTOR;
+ALTER TABLE post ADD COLUMN body_tsv TSVECTOR;
+
+CREATE INDEX title_tsv_gin ON post USING GIN(title_tsv);
+CREATE INDEX body_tsv_gin ON post USING GIN(body_tsv);
+
+CREATE TRIGGER update_title_tsv 
+BEFORE INSERT OR UPDATE ON post FOR EACH ROW
+EXECUTE PROCEDURE tsvector_update_trigger(title_tsv, 'pg_catalog.english', title);
+
+CREATE TRIGGER update_body_tsv
+BEFORE INSERT OR UPDATE ON post FOR EACH ROW
+EXECUTE PROCEDURE tsvector_update_trigger(body_tsv, 'pg_catalog.english', title, body);
