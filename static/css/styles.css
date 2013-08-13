@@ -4354,3 +4354,6 @@ input[type="text"] {
 .posts {
   margin-bottom: 20px;
 }
+.post a:visited {
+  color: #9a0099;
+}

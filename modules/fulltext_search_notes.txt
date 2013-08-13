@@ -1,5 +1,8 @@
 postgres commands
 
+ALTER TABLE post DROP COLUMN title_tsv;
+ALTER TABLE post DROP COLUMN body_tsv;
+
 ALTER TABLE post ADD COLUMN title_tsv TSVECTOR;
 ALTER TABLE post ADD COLUMN body_tsv TSVECTOR;
 
