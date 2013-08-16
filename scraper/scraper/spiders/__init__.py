@@ -10,7 +10,8 @@ from scraper.items import Post
 from pprint import pprint
 import sys
 import datetime
-sys.path.append('/Users/admin/Sites/webjobs/')
+# sys.path.append('/Users/admin/Sites/webjobs/')
+sys.path.append('/home/nick/webjobs.apixchange.com/webjobs/')
 from modules.database import db_session, City, Update, Post as P
 
 
