@@ -12,7 +12,7 @@ from scrapy.exceptions import DropItem
 
 class SavePipeline(object):
     def process_item(self, post, spider):
-        if P.query.filter_by(post_id=post['post_id']).count():
+        if P.query.filter_by(post_id=post['post_id']).count() == 1:
             raise DropItem("Item already exists")
         elif post['email'] != '':
             raise DropItem("Email not listed")
