@@ -4,8 +4,8 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import sys
 import datetime
-# sys.path.append('/Users/admin/Sites/webjobs/')
-sys.path.append('/home/nick/webjobs.apixchange.com/webjobs/')
+sys.path.append('/Users/admin/Sites/webjobs/')
+# sys.path.append('/home/nick/webjobs.apixchange.com/webjobs/')
 from modules.database import db_session, City, Post as P
 from scrapy.exceptions import DropItem
 
@@ -17,7 +17,7 @@ class SavePipeline(object):
         elif post['email'] != '':
             raise DropItem("Email not listed")
         else:
-            post = P(
+            db_post = P(
                 post_id=post['post_id'],
                 title=post['title'],
                 body=post['body'],
@@ -25,6 +25,6 @@ class SavePipeline(object):
                 timestamp=post['timestamp'],
                 url=post['url'],
             )
-            db_session.add(post)
+            db_session.add(db_post)
             db_session.commit()
             return post
