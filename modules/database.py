@@ -11,10 +11,10 @@ engine = create_engine(
     app.config['SQLALCHEMY_DATABASE_URI'],
     convert_unicode=True,
     pool_recycle=3600,
+    echo=True,
 )
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=True,
-                                         echo=True,
                                          bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
