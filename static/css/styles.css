@@ -4357,3 +4357,6 @@ input[type="text"] {
 .post a:visited {
   color: #9a0099;
 }
+.date {
+  width: 120px;
+}

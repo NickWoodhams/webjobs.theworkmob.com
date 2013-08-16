@@ -7,20 +7,20 @@
 </div>
 <p class="lead">Web Jobs are scraped daily from all Craigslist cities.</p>
 {{ form_fields(form, class="", button_title="Search", button_class="btn-primary") }}
-{% if posts %}
-	<h3 class="num-results">{{ posts|length }} results</h3>
-{% endif %}
-<div class="row posts">
 
-	<div class="col-lg-6">
-	{#show the post results below #}
-	{%- for post in posts -%}
-		<div class="post">
+<h3 class="num-results">{{ posts|length }} results</h3>
+
+{#show the post results below #}
+<table class="table posts">
+	{%- for post in posts -%}	
+	<tr>
+		<td class="date">{{- post.timestamp|prettydate -}}</td>
+		<td class="post">
 			<a href="{{ post.url }}">{{ post.title }}</a>
-		</div>
+		</td>
+	</tr>
 	{% endfor %}
-	</div>
-</div>
+</table>
 {% endblock body %}
 
 

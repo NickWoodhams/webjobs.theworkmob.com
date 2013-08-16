@@ -1,17 +1,10 @@
 from flask import Flask, render_template, request, send_file, abort, redirect, make_response, url_for, jsonify
 from pprint import pprint
 import urlparse
-from raven.contrib.flask import Sentry
+from config import app
 from modules.database import *
 from modules.forms import *
-
-
-app = Flask(__name__)
-app.debug = False
-app.config['SECRET_KEY'] = 'yolomcswaggerton'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://webjobs:dezijohnson@localhost/webjobs'
-app.config['SENTRY_DSN'] = 'http://aa64c0f6453848d5a5fdb756aa539cac:28846e2afb004b0883093beb4df11033@sentry.nwdesign.us/8'
-sentry = Sentry(app)
+from modules.functions import *
 
 
 @app.teardown_appcontext
@@ -39,14 +32,13 @@ def index():
 
         conn = engine.connect()
         query = """
-            SELECT post_id FROM post WHERE %s @@ to_tsquery('''%s''%s');
+            SELECT * FROM post WHERE %s @@ to_tsquery('''%s''%s') ORDER BY timestamp DESC;
         """ % (column_name, search, exclusions)
 
         result = conn.execute(query)
 
         for post in result.fetchall():
-            post_id = post[0]
-            post = Post.query.filter_by(post_id=post_id).first()
+            post = dict(zip(post.keys(), post.values()))
             posts.append(post)
 
     return render_template('index.html', form=form, posts=posts)

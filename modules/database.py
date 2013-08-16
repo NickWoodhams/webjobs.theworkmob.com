@@ -1,11 +1,11 @@
-from app import app
+from config import app
 from sqlalchemy import *
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import types
 
 
-__all__ = ['db_session', 'Base', 'engine', 'City', 'Post']
+__all__ = ['db_session', 'Base', 'engine', 'City', 'Post', 'Update']
 
 engine = create_engine(
     app.config['SQLALCHEMY_DATABASE_URI'],
@@ -41,6 +41,12 @@ class Post(Base):
     email = Column(Text())
     timestamp = Column(DateTime)
     url = Column(String(160))
+
+
+class Update(Base):
+    __tablename__ = 'update'
+    id = Column(Integer, primary_key=True)
+    timestamp = Column(DateTime)
 
 
 Base.metadata.create_all(bind=engine)
