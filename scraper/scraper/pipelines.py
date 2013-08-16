@@ -6,14 +6,16 @@ import sys
 import datetime
 sys.path.append('/Users/admin/Sites/webjobs/')
 from modules.database import db_session, City, Post as P
+from scrapy.exceptions import DropItem
 
 
 class SavePipeline(object):
-    def process_item(self, item, spider):
+    def process_item(self, post, spider):
         if P.query.filter_by(post_id=post['post_id']).count():
-            print "item already exists"
+            raise DropItem("Item already exists")
+        elif post['email'] != '':
+            raise DropItem("Email not listed")
         else:
-            print "inserting item"
             post = P(
                 post_id=post['post_id'],
                 title=post['title'],
@@ -24,5 +26,4 @@ class SavePipeline(object):
             )
             db_session.add(post)
             db_session.commit()
-
-        return item
+            return post

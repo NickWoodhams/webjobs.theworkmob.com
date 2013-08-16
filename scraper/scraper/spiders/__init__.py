@@ -5,8 +5,13 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import BaseSgmlLinkExtractor, SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
+from scrapy.exceptions import DropItem
 from scraper.items import Post
 from pprint import pprint
+import sys
+import datetime
+sys.path.append('/Users/admin/Sites/webjobs/')
+from modules.database import db_session, City, Update, Post as P
 
 
 def getStartURLs():
@@ -15,13 +20,6 @@ def getStartURLs():
     for city in cities:
         urls.append('http://' + city.name + '.craigslist.org/search/web?query=+')
     return urls
-
-
-def fallback(key, item):
-    try:
-        post[key] = item
-    except:
-        raise DropItem("%s not found" % key)
 
 
 class craigslistSpider(CrawlSpider):
@@ -42,8 +40,8 @@ class craigslistSpider(CrawlSpider):
         post = Post()
         post['url'] = response.url
         post['post_id'] = int(response.url[-15:-5])
-        fallback('title', hxs.select('//h2[@class="postingtitle"]/text()')[1].extract().strip())
-        fallback('email', hxs.select('//a').re(r'mailto:.*(?=</a>)')[0])
-        fallback('body', hxs.select("//section[@id='postingbody']/text()").extract()[0])
+        post['title'] = hxs.select('//h2[@class="postingtitle"]/text()')[1].extract().strip()
+        post['email'] = hxs.select('//a').re(r'mailto:.*(?=</a>)')[0]
+        post['body'] = hxs.select("//section[@id='postingbody']/text()").extract()[0]
         post['timestamp'] = datetime.datetime.fromtimestamp(int(hxs.select('//date/@title').extract()[0]) / 1e3)
         return post
