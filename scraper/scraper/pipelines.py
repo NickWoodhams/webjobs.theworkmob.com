@@ -5,6 +5,7 @@
 import sys
 import datetime
 sys.path.append('/Users/admin/Sites/webjobs/')
+sys.path.append('/home/nick/webjobs.apixchange.com/webjobs/')
 from modules.database import db_session, City, Post as P
 from scrapy.exceptions import DropItem
 
