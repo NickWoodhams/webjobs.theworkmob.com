@@ -14,7 +14,7 @@ class SavePipeline(object):
     def process_item(self, post, spider):
         if P.query.filter_by(post_id=post['post_id']).count() == 1:
             raise DropItem("Item already exists")
-        elif post['email'] != '':
+        elif 'email' not in post:
             raise DropItem("Email not listed")
         else:
             db_post = P(
@@ -27,4 +27,5 @@ class SavePipeline(object):
             )
             db_session.add(db_post)
             db_session.commit()
+            db_session.close()
             return post

@@ -11,7 +11,7 @@ engine = create_engine(
     app.config['SQLALCHEMY_DATABASE_URI'],
     convert_unicode=True,
     pool_recycle=3600,
-    echo=True,
+    echo=False,
 )
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=True,
