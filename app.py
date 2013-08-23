@@ -32,7 +32,7 @@ def index():
 
         conn = engine.connect()
         query = """
-            SELECT * FROM post WHERE %s @@ to_tsquery('''%s''%s') ORDER BY timestamp DESC;
+            SELECT * FROM post WHERE %s @@ to_tsquery('''%s''%s') AND timestamp > current_timestamp - interval '31 days' ORDER BY timestamp DESC;
         """ % (column_name, search, exclusions)
 
         result = conn.execute(query)
