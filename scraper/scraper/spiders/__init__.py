@@ -10,7 +10,7 @@ from scraper.items import Post
 from pprint import pprint
 import sys
 import datetime
-# sys.path.append('/Users/admin/Sites/webjobs/')
+sys.path.append('/Users/admin/Sites/webjobs/')
 sys.path.append('/home/nick/webjobs.apixchange.com/webjobs/')
 from modules.database import db_session, City, Update, Post as P
 
@@ -20,6 +20,7 @@ def getStartURLs():
     urls = []
     for city in cities:
         urls.append('http://' + city.name + '.craigslist.org/search/web?query=+')
+        urls.append('http://' + city.name + '.craigslist.org/search/cpg?query=+')
     return urls
 
 
