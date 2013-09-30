@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+    webjobs
+    ~~~~~~~~
+
+    craigslist scraper
+"""
+
 from flask import Flask, render_template, request, send_file, abort, redirect, make_response, url_for, jsonify
 from pprint import pprint
 import urlparse
