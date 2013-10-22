@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+    scrapy stuff
+    ~~~~~~~~
+    scrapy settings file
+"""
 # Scrapy settings for scraper project
 #
 # For simplicity, this file contains only the most important settings by
@@ -12,6 +18,7 @@ SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 
 ITEM_PIPELINES = ['scraper.pipelines.SavePipeline']
+LOG_ENABLED = False
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scraper (+http://www.yourdomain.com)'
