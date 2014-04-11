@@ -17,8 +17,11 @@ BOT_NAME = 'scraper'
 SPIDER_MODULES = ['scraper.spiders']
 NEWSPIDER_MODULE = 'scraper.spiders'
 
-ITEM_PIPELINES = ['scraper.pipelines.SavePipeline']
-LOG_ENABLED = False
+ITEM_PIPELINES = {
+    'scraper.pipelines.SavePipeline': 300
+}
 
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scraper (+http://www.yourdomain.com)'
+LOG_ENABLED = True
+
+# Crawl responsibly by identifying yourself on the user-agent
+# USER_AGENT = 'scraper (+http://www.yourdomain.com)'

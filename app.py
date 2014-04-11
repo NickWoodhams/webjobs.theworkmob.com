@@ -6,13 +6,14 @@
     craigslist scraper, web jobs search
 """
 
-from flask import Flask, render_template, request, send_file, abort, redirect, make_response, url_for, jsonify
+from flask import Flask, render_template, request, send_file, abort, \
+    redirect, make_response, url_for, jsonify
 from pprint import pprint
 import urlparse
 from config import app
-from modules.database import *
-from modules.forms import *
-from modules.functions import *
+from modules.database import engine, db_session, Base, City, Post, Update
+from modules.forms import searchForm
+from modules.functions import prettydate
 
 
 @app.teardown_appcontext
@@ -30,7 +31,8 @@ def index():
 
     if request.method == "GET" and form.search.data and form.validate:
         search = form.search.data
-        excluded_terms = [' & !' + term for term in form.excluded.data.split()][::-1]
+        excluded_terms = [
+            ' & !' + term for term in form.excluded.data.split()][::-1]
         exclusions = "".join(excluded_terms)
 
         if form.include_body.data:
@@ -39,9 +41,10 @@ def index():
             column_name = 'title_tsv'
 
         conn = engine.connect()
-        query = """
-            SELECT * FROM post WHERE %s @@ to_tsquery('''%s''%s') AND timestamp > current_timestamp - interval '31 days' ORDER BY timestamp DESC;
-        """ % (column_name, search, exclusions)
+        query = ("SELECT * FROM post WHERE %s @@ to_tsquery('''%s''%s') " +
+                 "AND timestamp > current_timestamp - interval '31 days' " +
+                 "ORDER BY timestamp DESC;") % \
+                (column_name, search, exclusions)
 
         result = conn.execute(query)
 
@@ -53,4 +56,5 @@ def index():
 
 
 if __name__ == '__main__':
+    # Base.metadata.create_all(bind=engine)
     app.run(host='0.0.0.0', port=9020)

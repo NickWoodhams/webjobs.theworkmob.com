@@ -1,5 +1,7 @@
+
 from config import app
-from sqlalchemy import *
+from sqlalchemy import create_engine, Column, Integer, String, BigInteger, \
+    Text, DateTime
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import types
@@ -18,7 +20,6 @@ db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 Base = declarative_base()
 Base.query = db_session.query_property()
-Base.metadata.create_all(bind=engine)
 
 
 class tsvector(types.TypeDecorator):
@@ -34,20 +35,17 @@ class City(Base):
 class Post(Base):
     __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
-    post_id = Column(BigInteger(12))
+    post_id = Column(BigInteger())
     title = Column(tsvector)
     title_tsv = Column(String(160))
     body = Column(Text())
     body_tsv = Column(tsvector)
     email = Column(Text())
-    timestamp = Column(DateTime)
+    timestamp = Column(DateTime())
     url = Column(String(160))
 
 
 class Update(Base):
     __tablename__ = 'update'
     id = Column(Integer, primary_key=True)
-    timestamp = Column(DateTime)
-
-
-Base.metadata.create_all(bind=engine)
+    timestamp = Column(DateTime())
