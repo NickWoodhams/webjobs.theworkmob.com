@@ -12,7 +12,7 @@ from pprint import pprint
 import sys
 import datetime
 sys.path.append('/Users/nick/Sites/apix/webjobs/')
-sys.path.append('/home/nick/webjobs.apixchange.com/webjobs/')
+sys.path.append('/home/nick/webjobs.theworkmob.com/')
 from modules.database import db_session, City, Update, Post as P
 
 
