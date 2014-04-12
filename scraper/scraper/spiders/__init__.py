@@ -30,8 +30,8 @@ def getStartURLs():
 class craigslistSpider(CrawlSpider):
     name = "craigs"
     allowed_domains = ["craigslist.org"]
-    # start_urls = getStartURLs()
-    start_urls = ["http://kalamazoo.craigslist.org/search/web?query=+"]
+    # start_urls = ["http://kalamazoo.craigslist.org/search/web?query=+"]
+    start_urls = getStartURLs()
 
     rules = (
         Rule(
